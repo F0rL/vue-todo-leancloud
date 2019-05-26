@@ -49,8 +49,9 @@ export default {
 <style lang="scss">
   $wel-fontSize: 32px;
   $wel-fontColor: #48466d;
-  $welcome-size: 500px;
+  $wel-size: 500px;
   $login-size: 360px;
+  $login-shadow: #928a97;
   .home {
     height: 100%;
     display: flex;
@@ -62,7 +63,7 @@ export default {
   }
   .welcome {
     margin-right: 200px;
-    width: $welcome-size;
+    width: $wel-size;
     > h1 {
       font-size: $wel-fontSize;
       color: $wel-fontColor;
@@ -76,12 +77,18 @@ export default {
   .login {
     height: $login-size;
     width: $login-size;
-    background: rgba(255,255,255,.6);
+    background: rgba(255,255,255,.8);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    box-shadow: 1px 1px 0px $login-shadow,
+                2px 2px 0px $login-shadow,
+                3px 3px 0px $login-shadow,
+                4px 4px 0px $login-shadow,
+                5px 5px 0px $login-shadow,
+                6px 6px 0px $login-shadow;
     > .username, .password {
       width: $login-size*0.8;
     }
@@ -89,6 +96,9 @@ export default {
       width: 120px;
       > .home-button {
         height: 40px;
+        &:hover {
+          background: rgba(0, 0, 0, .04);
+        }
       }
     }
   }

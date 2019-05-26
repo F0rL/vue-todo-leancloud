@@ -13,7 +13,7 @@
     props: {
       duration: {
         type: Number,
-        default: 500
+        default: 450
       }
     },
     data() {
@@ -51,7 +51,7 @@
 </script>
 
 <style lang="scss" scoped>
-  $wave-bg: rgba(0, 0, 0, .04);
+  $wave-bg: rgba(8, 217, 214, .4);
   .wave {
     width: 100%;
     height: 100%;
@@ -82,7 +82,7 @@
       transform: scale(1);
     }
     100% {
-      transform: scale(40);
+      transform: scale(30);
     }
   }
 </style>
