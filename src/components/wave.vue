@@ -82,7 +82,7 @@
       transform: scale(1);
     }
     100% {
-      transform: scale(30);
+      transform: scale(60);
     }
   }
 </style>

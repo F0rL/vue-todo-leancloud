@@ -6,6 +6,7 @@
       <h3>{{sentence.zh}}</h3>
     </div>
     <div class="login">
+      <p class="home-msg">{{message}}</p>
       <div class="username">
         <x-input v-model="username" placeholder="输入用户名"></x-input>
       </div>
@@ -31,7 +32,8 @@ export default {
     return {
       sentence : null,
       username: '',
-      password: ''
+      password: '',
+      message: 'welcome'
     }
   },
   created() {
@@ -52,6 +54,7 @@ export default {
   $wel-size: 500px;
   $login-size: 360px;
   $login-shadow: #928a97;
+  $login-color: #36b1bf;
   .home {
     height: 100%;
     display: flex;
@@ -77,24 +80,25 @@ export default {
   .login {
     height: $login-size;
     width: $login-size;
-    background: rgba(255,255,255,.8);
+    background: rgba(255,255,255,.6);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    box-shadow: 1px 1px 0px $login-shadow,
-                2px 2px 0px $login-shadow,
-                3px 3px 0px $login-shadow,
-                4px 4px 0px $login-shadow,
-                5px 5px 0px $login-shadow,
-                6px 6px 0px $login-shadow;
     > .username, .password {
       width: $login-size*0.8;
+    }
+    > .home-msg {
+      font-size: 16px;
+      color: $login-color;
+      font-weight: 600;
+      user-select: none;
     }
     > .button-group {
       width: 120px;
       > .home-button {
+        color: $login-color;
         height: 40px;
         &:hover {
           background: rgba(0, 0, 0, .04);
