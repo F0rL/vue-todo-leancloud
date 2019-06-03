@@ -5,8 +5,8 @@
       <h3>{{sentence.en}}</h3>
       <h3>{{sentence.zh}}</h3>
     </div>
-    <div class="login">
-      <p class="home-msg">{{message}}</p>
+    <div class="home-input login" v-if="isLogin">
+      <p class="home-msg">{{loginMsg}}</p>
       <div class="username">
         <x-input v-model="username" placeholder="输入用户名"></x-input>
       </div>
@@ -14,8 +14,24 @@
         <x-input v-model="password" placeholder="输入密码" type="password"></x-input>
       </div>
       <div class="button-group">
-        <x-wave class="home-button">登录</x-wave>
-        <x-wave class="home-button">注册</x-wave>
+        <x-wave class="home-button">确认登录</x-wave>
+        <x-wave class="home-button" @click="changeInput">注册</x-wave>
+      </div>
+    </div>
+    <div class="home-input signup" v-else>
+      <p class="home-msg">{{signMsg}}</p>
+      <div class="username">
+        <x-input v-model="username" placeholder="输入用户名"></x-input>
+      </div>
+      <div class="password">
+        <x-input v-model="password" placeholder="输入密码" type="password"></x-input>
+      </div>
+      <div class="password">
+        <x-input v-model="repeatPassword" placeholder="重复密码" type="password"></x-input>
+      </div>
+      <div class="button-group">
+        <x-wave class="home-button">确认注册</x-wave>
+        <x-wave class="home-button" @click="changeInput">登录</x-wave>
       </div>
     </div>
   </div>
@@ -33,16 +49,27 @@ export default {
       sentence : null,
       username: '',
       password: '',
-      message: 'welcome'
+      repeatPassword: '',
+      loginMsg: '欢迎登录',
+      signMsg: '欢迎注册',
+      isLogin: true
     }
   },
   created() {
     this.getSentence()
   },
+  mounted() {
+  },
   methods: {
-    getSentence(){
+    getSentence() {
       let index = Math.floor(Math.random() * perday.length)
       this.sentence = perday[index]
+    },
+    changeInput() {
+      this.isLogin = !this.isLogin
+      this.username = ''
+      this.password = ''
+      this.repeatPassword= ''
     }
   },
   components: {xInput, xWave}
@@ -77,7 +104,7 @@ export default {
       margin-top: $wel-fontSize;
     }
   }
-  .login {
+  .home-input {
     height: $login-size;
     width: $login-size;
     background: rgba(255,255,255,.6);
