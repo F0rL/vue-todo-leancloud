@@ -8,3 +8,16 @@ AV.init({
   appKey: APP_KEY
 });
 
+export function signUpLean(username, password, email) {
+  const user = new AV.User()
+  user.setUsername(username)
+  user.setPassword(password)
+  user.setEmail(email)
+  console.log('注册')
+  return user.signUp()
+}
+
+export function logInLean(username, password) {
+  console.log('登录')
+  return AV.User.logIn(username, password)
+}

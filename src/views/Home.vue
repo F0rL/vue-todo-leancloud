@@ -14,7 +14,7 @@
         <x-input v-model="password" placeholder="输入密码" type="password"></x-input>
       </div>
       <div class="button-group">
-        <x-wave class="home-button">确认登录</x-wave>
+        <x-wave class="home-button" @click="logIn">确认登录</x-wave>
         <x-wave class="home-button" @click="changeInput">注册</x-wave>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <x-input v-model="repeatPassword" placeholder="重复密码" type="password"></x-input>
       </div>
       <div class="button-group">
-        <x-wave class="home-button">确认注册</x-wave>
+        <x-wave class="home-button" @click="signUp">确认注册</x-wave>
         <x-wave class="home-button" @click="changeInput">登录</x-wave>
       </div>
     </div>
@@ -41,7 +41,8 @@
 import xInput from '@/components/input'
 import xWave from '@/components/wave'
 import perday from '@/assets/js/perday'
-
+import {signUpLean, logInLean} from '@/http/leancloud'
+import errorCode from '@/assets/js/errorCode'
 export default {
   name: 'home',
   data() {
@@ -70,6 +71,23 @@ export default {
       this.username = ''
       this.password = ''
       this.repeatPassword= ''
+    },
+    signUp() {
+      console.log('signUp')
+      signUpLean(this.username, this.password).then(e => {
+        console.log(e)
+      }, e => {
+        console.log(e)
+        this.signMsg = errorCode(e)
+      })
+    },
+    logIn() {
+      console.log('login');
+      logInLean(this.username, this.password).then(e => {
+        console.log(e)
+      }, e => {
+        this.loginMsg = errorCode(e)
+      })
     }
   },
   components: {xInput, xWave}
