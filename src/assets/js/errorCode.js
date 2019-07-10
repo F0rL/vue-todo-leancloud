@@ -1,4 +1,4 @@
-export default function (error) {
+export default function errorCode(error) {
   let code = error.code
   switch (code) {
     case 202:

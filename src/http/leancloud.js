@@ -1,3 +1,4 @@
+//数据开发指南 https://leancloud.cn/docs/leanstorage_guide-js.html
 import AV from 'leancloud-storage'
 
 const APP_ID = 'mDDFlWAeVIznVyJ9QqVXLtjc-gzGzoHsz';

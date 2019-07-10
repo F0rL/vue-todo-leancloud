@@ -75,16 +75,15 @@ export default {
     signUp() {
       console.log('signUp')
       signUpLean(this.username, this.password).then(e => {
-        console.log(e)
+        this.$router.push('/user')
       }, e => {
-        console.log(e)
         this.signMsg = errorCode(e)
       })
     },
     logIn() {
       console.log('login');
       logInLean(this.username, this.password).then(e => {
-        console.log(e)
+        this.$router.push('/user')
       }, e => {
         this.loginMsg = errorCode(e)
       })
@@ -103,14 +102,14 @@ export default {
   .home {
     height: 100%;
     display: flex;
-    justify-content: center;
+    min-width: 980px;
+    justify-content: space-around;
     align-items: center;
     background: #74ebd5; /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #ACB6E5, #74ebd5); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #ACB6E5, #74ebd5);
   }
   .welcome {
-    margin-right: 200px;
     width: $wel-size;
     > h1 {
       font-size: $wel-fontSize;
