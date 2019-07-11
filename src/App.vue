@@ -16,6 +16,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
   width: 100%;
   height: 100%;
+  min-width: 980px;
 }
 #nav {
   padding: 30px;
