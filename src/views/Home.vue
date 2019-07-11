@@ -30,7 +30,7 @@
         <x-input v-model="repeatPassword" placeholder="重复密码" type="password"></x-input>
       </div>
       <div class="button-group">
-        <x-wave class="home-button" @click="signUp">确认注册</x-wave>
+        <x-wave class="home-button" @click="signUp">注册并登陆</x-wave>
         <x-wave class="home-button" @click="changeInput">登录</x-wave>
       </div>
     </div>
@@ -43,6 +43,8 @@ import xWave from '@/components/wave'
 import perday from '@/assets/js/perday'
 import {signUpLean, logInLean} from '@/http/leancloud'
 import errorCode from '@/assets/js/errorCode'
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'home',
   data() {
@@ -62,6 +64,7 @@ export default {
   mounted() {
   },
   methods: {
+    ...mapMutations(['setUser', 'setLogin']),
     getSentence() {
       let index = Math.floor(Math.random() * perday.length)
       this.sentence = perday[index]
@@ -74,7 +77,9 @@ export default {
     },
     signUp() {
       console.log('signUp')
-      signUpLean(this.username, this.password).then(e => {
+      signUpLean(this.username, this.password).then( res => {
+        this.setUser(res)
+        this.setLogin(true)
         this.$router.push('/user')
       }, e => {
         this.signMsg = errorCode(e)
@@ -82,10 +87,12 @@ export default {
     },
     logIn() {
       console.log('login');
-      logInLean(this.username, this.password).then(e => {
+      logInLean(this.username, this.password).then( res => {
+        this.setUser(res)
+        this.setLogin(true)
         this.$router.push('/user')
-      }, e => {
-        this.loginMsg = errorCode(e)
+      }, rev => {
+        this.loginMsg = errorCode(rev)
       })
     }
   },
@@ -102,7 +109,6 @@ export default {
   .home {
     height: 100%;
     display: flex;
-    min-width: 980px;
     justify-content: space-around;
     align-items: center;
     background: #74ebd5; /* fallback for old browsers */

@@ -22,3 +22,20 @@ export function logInLean(username, password) {
   console.log('登录')
   return AV.User.logIn(username, password)
 }
+
+function getUserFromAVUser(AVUser) {
+  return {
+    id: AVUser.id,
+    ...AVUser.attributes
+  }
+}
+export function getCurrentUer() {
+  let currentUser = AV.User.current()
+  if(currentUser) {
+    return getUserFromAVUser(currentUser)
+  }
+}
+
+export function logOut() {
+  AV.User.logOut()
+}

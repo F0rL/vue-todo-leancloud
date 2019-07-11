@@ -10,7 +10,7 @@ const getters = {}
 
 const mutations = {
   setUser(state, payload) {
-    state.user = payload
+    state.user= {id: payload.id, ...payload.attributes}
   },
   setLogin(state, payload) {
     state.isLogin = payload
