@@ -10,16 +10,24 @@
       </div>
       <div class="user-info" @click="onClickUserInfo">
         <x-icon name="login" style="width:20px;height:20px;"></x-icon>
-        <div class="user-name">{{user.username}}</div>
+        <div class="user-name">{user.username}</div>
       </div>
       <transition name="action-slide">
         <ul class="action" v-show="actionVisible">
-          <li @click="onClickAction('changeName')">修改昵称</li>
+          <li @click="onClickAction('changeName')">修改用户名</li>
           <li @click="onClickAction('changePassword')">修改密码</li>
           <li @click="onClickAction('logout')">注销登陆</li>
         </ul>
       </transition>
     </header>
+    <div class="mask" v-show="dialogVisible">
+      <div class="dialog">
+        <x-icon name="close" class="dialog-close" @click="closeDialog"></x-icon>
+        <span class="dialog-title">{{dialogTitle}}</span>
+        <x-input class="dialog-input" v-model.trim="newInfo"></x-input>
+        <x-wave class="dialog-btn">确定</x-wave>
+      </div>
+    </div>
     <div class="user-main">
       <p>main</p>
       <x-todo></x-todo>
@@ -28,16 +36,21 @@
 </template>
 <script>
   import xIcon from '@/components/icon'
+  import xInput from '@/components/input'
   import xTodo from '@/components/todo'
-  import { mapState, mapMutations } from 'vuex'
+  import xWave from '@/components/wave'
+  import { mapState } from 'vuex'
   import {getCurrentUer, logOut} from '@/http/leancloud'
 
   export default {
     name: 'User',
-    components: { xIcon, xTodo },
+    components: { xIcon, xInput, xWave,  xTodo },
     data(){
       return {
         actionVisible: false,
+        dialogVisible: false,
+        dialogTitle: '请输入新密码',
+        newInfo: ''
       }
     },
     computed: {
@@ -58,12 +71,21 @@
       onClickAction(type) {
         if(type === 'logout') {
           logOut()
-
           console.log(getCurrentUer())
           this.$router.push('/')
         } else {
-
+          this.dialogVisible = true
+          if(type === 'changeName') {
+            this.dialogTitle = '请输入新的用户名'
+            this.newInfo = ''
+          } else if (type === 'changePassword') {
+            this.dialogTitle =  '请输入新的密码'
+            this.newInfo = ''
+          }
         }
+      },
+      closeDialog() {
+        this.dialogVisible = false
       }
     }
   }
@@ -79,6 +101,7 @@
     flex-direction: column;
     align-items: stretch;
     background-color: $user-bg-color;
+    /*background-color: #fff;*/
     > .user-header {
       height: 60px;
       display: flex;
@@ -157,6 +180,55 @@
             border-bottom-right-radius: 4px;
           }
         }
+      }
+    }
+    > .mask {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      z-index: 5;
+      background: rgba(0, 0, 0, 0.04);
+      > .dialog {
+        width: 300px;
+        height: 200px;
+        position: fixed;
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.85);
+        > .dialog-close {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          color: #000;
+          cursor: pointer;
+          font-size: 18px;
+        }
+        > .dialog-title {
+          font-size: 18px;
+          font-weight: 600;
+          user-select: none;
+        }
+        > .dialog-input {
+          width: 70%;
+        }
+        > .dialog-btn {
+          width: 100px;
+          height: 35px;
+          border-radius: 4px;
+          cursor: pointer;
+          background: transparent;
+          transition: all 0.2s linear;
+          &:hover {
+            background: rgba(0, 0, 0, .04);
+          }
+        }
+
       }
     }
   }
