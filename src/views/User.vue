@@ -25,7 +25,7 @@
         <x-icon name="close" class="dialog-close" @click="closeDialog"></x-icon>
         <span class="dialog-title">{{dialogTitle}}</span>
         <x-input class="dialog-input" v-model.trim="newInfo"></x-input>
-        <x-wave class="dialog-btn">确定</x-wave>
+        <x-wave class="dialog-btn" @click="submitChange">确定</x-wave>
       </div>
     </div>
     <div class="user-main">
@@ -40,7 +40,7 @@
   import xTodo from '@/components/todo'
   import xWave from '@/components/wave'
   import { mapState } from 'vuex'
-  import {getCurrentUer, logOut} from '@/http/leancloud'
+  import {getCurrentUer, logOut, setPassword} from '@/http/leancloud'
 
   export default {
     name: 'User',
@@ -50,7 +50,8 @@
         actionVisible: false,
         dialogVisible: false,
         dialogTitle: '请输入新密码',
-        newInfo: ''
+        newInfo: '',
+        changeType: ''
       }
     },
     computed: {
@@ -77,11 +78,22 @@
           this.dialogVisible = true
           if(type === 'changeName') {
             this.dialogTitle = '请输入新的用户名'
+            this.changeType = type
             this.newInfo = ''
           } else if (type === 'changePassword') {
             this.dialogTitle =  '请输入新的密码'
+            this.changeType = type
             this.newInfo = ''
           }
+        }
+      },
+      submitChange(){
+        if(this.changeType === 'changeName') {
+          alert('changename')
+          this.closeDialog()
+        }else {
+          setPassword(this.newInfo)
+          this.closeDialog()
         }
       },
       closeDialog() {
