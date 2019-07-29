@@ -40,13 +40,3 @@ export function getCurrentUer() {
 export function logOut() {
   AV.User.logOut()
 }
-
-export function setPassword(newPassword) {
-  const user = new AV.User()
-  console.log(user.setPassword(newPassword));
-  if(user.setPassword(newPassword)) {
-    alert('更改密码成功')
-  }else {
-    alert('更改密码失败')
-  }
-}

@@ -10,12 +10,12 @@
       </div>
       <div class="user-info" @click="onClickUserInfo">
         <x-icon name="login" style="width:20px;height:20px;"></x-icon>
-        <div class="user-name">{user.username}</div>
+        <div class="user-name">{{user.username}}</div>
       </div>
       <transition name="action-slide">
         <ul class="action" v-show="actionVisible">
-          <li @click="onClickAction('changeName')">修改用户名</li>
-          <li @click="onClickAction('changePassword')">修改密码</li>
+<!--          <li @click="onClickAction('changeName')">修改用户名</li>-->
+<!--          <li @click="onClickAction('changePassword')">修改密码</li>-->
           <li @click="onClickAction('logout')">注销登陆</li>
         </ul>
       </transition>
@@ -256,6 +256,6 @@
   }
   .action-slide-enter-to,
   .action-slide-leave {
-    height: 96px;
+    height: 32px;
   }
 </style>
