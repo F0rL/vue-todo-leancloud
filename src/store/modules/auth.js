@@ -2,7 +2,7 @@
 // const Todo = new Leancloud('Todo')
 import {getCurrentUer} from '@/http/leancloud'
 const state = {
-  user: null,
+  user: {},
   isLogin: false
 }
 

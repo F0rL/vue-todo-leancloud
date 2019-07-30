@@ -23,8 +23,9 @@
     <div class="mask" v-show="dialogVisible">
       <div class="dialog">
         <x-icon name="close" class="dialog-close" @click="closeDialog"></x-icon>
-        <span class="dialog-title">{{dialogTitle}}</span>
+        <span class="dialog-title">请输入密码</span>
         <x-input class="dialog-input" v-model.trim="password"></x-input>
+        <span class="dialog-title">请输入新的昵称</span>
         <x-input class="dialog-input" v-model.trim="newNickname"></x-input>
         <x-wave class="dialog-btn" @click="submitChange">确定</x-wave>
       </div>
@@ -50,7 +51,6 @@
       return {
         actionVisible: false,
         dialogVisible: false,
-        dialogTitle: '请输入新密码',
         newNickname: '',
         password: '',
         changeType: ''
@@ -77,15 +77,13 @@
           this.$router.push('/')
         } else {
           this.dialogVisible = true
-          if(type === 'changeName') {
-            this.dialogTitle = '请输入新的用户名'
-          }
         }
       },
       submitChange(){
           setNickname(this.user.username, this.password, this.newNickname).then(()=>{
-            console.log(getCurrentUer())
             this.setUser(getCurrentUer())
+            this.onClickUserInfo()
+            alert('修改昵称成功')
           }).catch(()=>alert('密码错误'))
           this.closeDialog()
       },
@@ -93,6 +91,7 @@
         this.newNickname = ''
         this.password = ''
         this.dialogVisible = false
+        this.onClickUserInfo()
       }
     }
   }
@@ -197,7 +196,7 @@
       background: rgba(0, 0, 0, 0.04);
       > .dialog {
         width: 300px;
-        height: 200px;
+        height: 240px;
         position: fixed;
         top: 30%;
         left: 50%;
@@ -217,7 +216,7 @@
           font-size: 18px;
         }
         > .dialog-title {
-          font-size: 18px;
+          font-size: 16px;
           font-weight: 600;
           user-select: none;
         }
