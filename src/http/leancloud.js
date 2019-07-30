@@ -15,6 +15,7 @@ export function signUpLean(username, password, email) {
   user.setPassword(password)
   user.setEmail(email)
   console.log('注册')
+  setNickname(username,password,username)
   return user.signUp()
 }
 
@@ -26,15 +27,22 @@ export function logInLean(username, password) {
 function getUserFromAVUser(AVUser) {
   return {
     id: AVUser.id,
+    nickName: AVUser.attributes.username,
     ...AVUser.attributes
   }
 }
 export function getCurrentUer() {
   let currentUser = AV.User.current()
-  console.log(currentUser);
+  //console.log(currentUser);
   if(currentUser) {
     return getUserFromAVUser(currentUser)
   }
+}
+export function setNickname(username, password, nickName) {
+  return AV.User.logIn(username, password).then(function (loggedInUser) {
+    loggedInUser.set('nickName', nickName);
+    return loggedInUser.save();
+  })
 }
 
 export function logOut() {

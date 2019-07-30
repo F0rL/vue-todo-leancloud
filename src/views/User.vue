@@ -10,11 +10,11 @@
       </div>
       <div class="user-info" @click="onClickUserInfo">
         <x-icon name="login" style="width:20px;height:20px;"></x-icon>
-        <div class="user-name">{{user.username}}</div>
+        <div class="user-name">{{user.nickName}}</div>
       </div>
       <transition name="action-slide">
         <ul class="action" v-show="actionVisible">
-<!--          <li @click="onClickAction('changeName')">修改用户名</li>-->
+          <li @click="onClickAction('changeName')">修改昵称</li>
 <!--          <li @click="onClickAction('changePassword')">修改密码</li>-->
           <li @click="onClickAction('logout')">注销登陆</li>
         </ul>
@@ -24,7 +24,8 @@
       <div class="dialog">
         <x-icon name="close" class="dialog-close" @click="closeDialog"></x-icon>
         <span class="dialog-title">{{dialogTitle}}</span>
-        <x-input class="dialog-input" v-model.trim="newInfo"></x-input>
+        <x-input class="dialog-input" v-model.trim="password"></x-input>
+        <x-input class="dialog-input" v-model.trim="newNickname"></x-input>
         <x-wave class="dialog-btn" @click="submitChange">确定</x-wave>
       </div>
     </div>
@@ -39,8 +40,8 @@
   import xInput from '@/components/input'
   import xTodo from '@/components/todo'
   import xWave from '@/components/wave'
-  import { mapState } from 'vuex'
-  import {getCurrentUer, logOut, setPassword} from '@/http/leancloud'
+  import { mapState, mapMutations, mapActions } from 'vuex'
+  import {getCurrentUer, setNickname, logOut} from '@/http/leancloud'
 
   export default {
     name: 'User',
@@ -50,22 +51,22 @@
         actionVisible: false,
         dialogVisible: false,
         dialogTitle: '请输入新密码',
-        newInfo: '',
+        newNickname: '',
+        password: '',
         changeType: ''
       }
     },
     computed: {
       ...mapState({
         user: state => state.auth.user
-      })
+      }),
     },
     mounted() {
-      this.getUser()
+      this.getUserInfo()
     },
     methods: {
-      getUser() {
-        console.log(getCurrentUer())
-      },
+      ...mapActions(['getUserInfo']),
+      ...mapMutations(['setUser', 'setLogin']),
       onClickUserInfo(){
         this.actionVisible = !this.actionVisible
       },
@@ -78,25 +79,19 @@
           this.dialogVisible = true
           if(type === 'changeName') {
             this.dialogTitle = '请输入新的用户名'
-            this.changeType = type
-            this.newInfo = ''
-          } else if (type === 'changePassword') {
-            this.dialogTitle =  '请输入新的密码'
-            this.changeType = type
-            this.newInfo = ''
           }
         }
       },
       submitChange(){
-        if(this.changeType === 'changeName') {
-          alert('changename')
+          setNickname(this.user.username, this.password, this.newNickname).then(()=>{
+            console.log(getCurrentUer())
+            this.setUser(getCurrentUer())
+          }).catch(()=>alert('密码错误'))
           this.closeDialog()
-        }else {
-          setPassword(this.newInfo)
-          this.closeDialog()
-        }
       },
       closeDialog() {
+        this.newNickname = ''
+        this.password = ''
         this.dialogVisible = false
       }
     }
@@ -256,6 +251,6 @@
   }
   .action-slide-enter-to,
   .action-slide-leave {
-    height: 32px;
+    height: 64px;
   }
 </style>
