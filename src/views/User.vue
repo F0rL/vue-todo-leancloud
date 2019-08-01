@@ -32,7 +32,7 @@
     </div>
     <div class="user-main">
       <p>main</p>
-      <x-todo></x-todo>
+      <x-todo v-for="item in todos" :todo = item :key="item.id"></x-todo>
     </div>
   </div>
 </template>
@@ -53,7 +53,13 @@
         dialogVisible: false,
         newNickname: '',
         password: '',
-        changeType: ''
+        changeType: '',
+        todos: [
+          {"id": 1, "text": "吃饭睡觉", "status": false, "time": "2019/08/01"},
+          {"id": 2, "text": "玩游戏", "status": false, "time": "2019/08/02"},
+          {"id": 3, "text": "学习", "status": true, "time": "2019/08/03"},
+          {"id": 4, "text": "游泳", "status": false, "time": "2019/08/04"}
+        ]
       }
     },
     computed: {
@@ -97,7 +103,7 @@
   }
 </script>
 <style lang="scss" scoped>
-  $user-bg-color: rgba(0, 0, 0, 0.65);
+  $user-bg-color: #eee;
   $header-bg-color: #fff;
 
   .user {
@@ -236,6 +242,11 @@
         }
 
       }
+    }
+    > .user-main {
+      margin-left: 200px;
+      margin-right: 200px;
+      height: 100%;
     }
   }
 
