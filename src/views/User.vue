@@ -34,6 +34,16 @@
       <p>main</p>
       <x-todo v-for="item in todos" :todo = item :key="item.id"></x-todo>
     </div>
+    <form class="user-add">
+      <x-icon name="add" class="addTodoShow" @click="addTodo"></x-icon>
+      <div class="addTodo">
+        <textarea name="addtodo" id="addTodo-content" cols="150" rows="10"></textarea>
+        <div class="addTodoBtn-grounp">
+          <button class="clearTodoBtn todoBtn">快速清除</button>
+          <button class="addTodoBtn todoBtn">确认提交</button>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 <script>
@@ -105,6 +115,7 @@
 <style lang="scss" scoped>
   $user-bg-color: #eee;
   $header-bg-color: #fff;
+  $add-btn-size : 30px;
 
   .user {
     width: 100%;
@@ -247,6 +258,58 @@
       margin-left: 200px;
       margin-right: 200px;
       height: 100%;
+    }
+    > .user-add {
+      > .addTodoShow {
+        position: fixed;
+        right: 30px;
+        bottom: 30px;
+        height: $add-btn-size * 2;
+        width: $add-btn-size * 2;
+        padding: $add-btn-size/2.4;
+        background: red;
+        border-radius: $add-btn-size;
+      }
+      > .addTodo {
+        position: fixed;
+        right: 100px;
+        bottom: 60px;
+        width: 500px;
+        height: 60%;
+        padding: 1px;
+        background-color: #2196f3;
+        border-radius: 10px;
+        > #addTodo-content {
+          vertical-align: bottom;
+          width: calc(100% - 40px);
+          padding: 20px;
+          height: 80%;
+          font-size: 18px;
+          background-color: transparent;
+          border: none;
+          color: #fff;
+          resize: none;
+        }
+        > .addTodoBtn-grounp {
+          height: 11%;
+          display: flex;
+          justify-content: space-between;
+          padding: 0 50px;
+          border-top: #fff 1px solid;
+          > .todoBtn {
+            margin: 4px;
+            padding: 0;
+            border: 0;
+            background-color: transparent;
+            font-size: 16px;
+            color: #fff;
+            cursor: pointer;
+            &:hover {
+              color: red;
+            }
+          }
+        }
+      }
     }
   }
 
