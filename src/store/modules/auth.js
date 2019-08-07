@@ -22,6 +22,9 @@ const mutations = {
 const actions = {
   async getUserInfo({commit}) {
     let userInfo = getCurrentUer()
+    if(userInfo) {
+      commit('setLogin', true)
+    }
     commit('setUser', userInfo)
   }
 }
