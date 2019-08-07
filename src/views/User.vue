@@ -31,7 +31,6 @@
       </div>
     </div>
     <div class="user-main">
-      <p>main</p>
       <x-todo v-for="item in todos" :todo = item :key="item.id"></x-todo>
     </div>
     <form class="user-add">
@@ -273,9 +272,12 @@
       }
     }
     > .user-main {
-      margin-left: 200px;
-      margin-right: 200px;
+      max-width: 800px;
+      margin-top: 15px;
       height: 100%;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
     }
     > .user-add {
       > .addTodoShow {
