@@ -8,7 +8,28 @@ AV.init({
   appId: APP_ID,
   appKey: APP_KEY
 });
+export const TodoModel = {
+  create(content, status, deleted) {
+    let Todo = AV.Object.extend('Todo')
+    let todo = new Todo()
+    todo.set('content', content )
+    todo.set('status', status )
+    todo.set('deleted', deleted )
+    // 根据文档 https://leancloud.cn/docs/acl-guide.html#单用户权限设置
+    // 这样做就可以让这个Todo只被当前用户看到
+    let acl = new AV.ACL()
+    acl.setPublicReadAccess(false)
+    acl.setWriteAccess(AV.User.current(),true)
+    acl.setReadAccess(AV.User.current(),true)
 
+    todo.setACL(acl)
+    return todo.save()
+  },
+  getTodoByUser(){
+    let query = new AV.Query('Todo')
+    return query.find()
+  }
+}
 export function signUpLean(username, password, email) {
   const user = new AV.User()
   user.setUsername(username)

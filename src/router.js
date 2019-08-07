@@ -25,7 +25,7 @@ const router = new Router({
 //导航守卫，先判断路由meta字段，再判断登陆状态
 router.beforeEach((to, from, next) => {
   const currentUser = getCurrentUer()
-  console.log(currentUser)
+  //console.log(currentUser)
   if(currentUser) {
     store.commit('setUser', currentUser)
     store.commit('setLogin', true)

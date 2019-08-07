@@ -35,12 +35,12 @@
       <x-todo v-for="item in todos" :todo = item :key="item.id"></x-todo>
     </div>
     <form class="user-add">
-      <x-icon name="add" class="addTodoShow" @click="addTodo"></x-icon>
-      <div class="addTodo">
-        <textarea name="addtodo" id="addTodo-content" cols="150" rows="10"></textarea>
+      <x-icon name="add" class="addTodoShow" @click="showAddTodo"></x-icon>
+      <div class="addTodo" v-show="addTodoVisible">
+        <textarea name="addtodo" id="addTodo-content" cols="150" rows="10" placeholder="请输入您待办的事" v-model="addTodoContent"></textarea>
         <div class="addTodoBtn-grounp">
-          <button class="clearTodoBtn todoBtn">快速清除</button>
-          <button class="addTodoBtn todoBtn">确认提交</button>
+          <button class="clearTodoBtn todoBtn" @click="clearAddTodoContent">快速清除</button>
+          <button class="addTodoBtn todoBtn" @click="addTodo">确认提交</button>
         </div>
       </div>
     </form>
@@ -64,24 +64,22 @@
         newNickname: '',
         password: '',
         changeType: '',
-        todos: [
-          {"id": 1, "text": "吃饭睡觉", "status": false, "time": "2019/08/01"},
-          {"id": 2, "text": "玩游戏", "status": false, "time": "2019/08/02"},
-          {"id": 3, "text": "学习", "status": true, "time": "2019/08/03"},
-          {"id": 4, "text": "游泳", "status": false, "time": "2019/08/04"}
-        ]
+        addTodoVisible: false,
+        addTodoContent: '',
       }
     },
     computed: {
       ...mapState({
-        user: state => state.auth.user
+        user: state => state.auth.user,
+        todos: state => state.todo.allTodos
       }),
     },
     mounted() {
       this.getUserInfo()
+      this.getTodos()
     },
     methods: {
-      ...mapActions(['getUserInfo']),
+      ...mapActions(['getUserInfo', 'createTodo', 'getTodos']),
       ...mapMutations(['setUser', 'setLogin']),
       onClickUserInfo(){
         this.actionVisible = !this.actionVisible
@@ -90,6 +88,7 @@
         if(type === 'logout') {
           logOut()
           console.log(getCurrentUer())
+          this.setLogin(false)
           this.$router.push('/')
         } else {
           this.dialogVisible = true
@@ -108,6 +107,25 @@
         this.password = ''
         this.dialogVisible = false
         this.onClickUserInfo()
+      },
+      showAddTodo() {
+        this.addTodoVisible = !this.addTodoVisible
+      },
+      clearAddTodoContent(){
+        this.addTodoContent = ''
+      },
+      addTodo(){
+        if(this.addTodoContent !== ''){
+          let content = this.addTodoContent
+          this.createTodo({content, status: 'processing', deleted: true}).then(res => {
+            console.log('新建成功')
+            console.log(res)
+            this.addTodoContent = ''
+            this.addTodoVisible = false
+          })
+        }else {
+          alert('内容不能为空')
+        }
       }
     }
   }
@@ -269,6 +287,7 @@
         padding: $add-btn-size/2.4;
         background: red;
         border-radius: $add-btn-size;
+        cursor: pointer;
       }
       > .addTodo {
         position: fixed;

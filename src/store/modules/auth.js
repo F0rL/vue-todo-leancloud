@@ -1,5 +1,3 @@
-// import Leancloud from '@/http/leancloud.js'
-// const Todo = new Leancloud('Todo')
 import {getCurrentUer} from '@/http/leancloud'
 const state = {
   user: {},
