@@ -33,7 +33,7 @@
     <div class="user-main">
       <x-todo v-for="item in todos" :todo = item :key="item.id"></x-todo>
     </div>
-    <form class="user-add">
+    <div class="user-add">
       <x-icon name="add" class="addTodoShow" @click="showAddTodo"></x-icon>
       <div class="addTodo" v-show="addTodoVisible">
         <textarea name="addtodo" id="addTodo-content" cols="150" rows="10" placeholder="请输入您待办的事" v-model="addTodoContent"></textarea>
@@ -42,7 +42,7 @@
           <button class="addTodoBtn todoBtn" @click="addTodo">确认提交</button>
         </div>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 <script>
@@ -116,11 +116,13 @@
       addTodo(){
         if(this.addTodoContent !== ''){
           let content = this.addTodoContent
-          this.createTodo({content, status: 'processing', deleted: true}).then(res => {
+          this.createTodo({content, status: 'processing', deleted: false}).then( () => {
+            this.getTodos()
             console.log('新建成功')
-            console.log(res)
             this.addTodoContent = ''
             this.addTodoVisible = false
+          }, error => {
+            console.log(error)
           })
         }else {
           alert('内容不能为空')
