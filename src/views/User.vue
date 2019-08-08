@@ -284,12 +284,17 @@
         position: fixed;
         right: 30px;
         bottom: 30px;
-        height: $add-btn-size * 2;
-        width: $add-btn-size * 2;
+        height: $add-btn-size * 1.8;
+        width: $add-btn-size * 1.8;
         padding: $add-btn-size/2.4;
-        background: red;
+        background: rgb(255, 64, 129);
         border-radius: $add-btn-size;
         cursor: pointer;
+        &:hover {
+          opacity: 0.6;
+          transform: rotate(45deg);
+          transition: .4s;
+        }
       }
       > .addTodo {
         position: fixed;
