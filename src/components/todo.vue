@@ -41,11 +41,14 @@
 
 <style lang="scss" scoped>
   #todo {
+    max-width: 800px;
     > .todo-time {
       display: flex;
       align-items: center;
       padding: 2px 10px;
       color: #aaa;
+      margin-bottom: 2px;
+      cursor: default;
       & > span:first-child {
         font-size: 14px;
 
@@ -74,6 +77,7 @@
       > .todo-change {
         position: relative;
         text-align: center;
+        cursor: pointer;
         &:after {
           position: absolute;
           content: '';

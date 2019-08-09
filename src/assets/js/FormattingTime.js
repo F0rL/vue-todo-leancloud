@@ -25,7 +25,7 @@ export default function FormattingTime(date) {
       break;
   }
   let day = time.getDate();
-  let month = time.getMonth();
+  let month = time.getMonth() + 1;
   let year = time.getFullYear();
   return `${year}年${month}月${day}日星期${week}`
 }

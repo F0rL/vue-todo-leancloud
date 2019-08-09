@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="user-main">
-      <x-todo v-for="item in todos" :todo = item :key="item.id"></x-todo>
+      <x-todo v-for="item in todos" :todo = item :key="item.id" class="user-todo-item"></x-todo>
     </div>
     <div class="user-add">
       <x-icon name="add" class="addTodoShow" @click="showAddTodo"></x-icon>
@@ -274,12 +274,13 @@
       }
     }
     > .user-main {
-      max-width: 800px;
       margin-top: 15px;
       height: 100%;
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%);
+      width: 100%;
+      overflow: scroll;
+      > .user-todo-item {
+        margin: 0 auto;
+      }
     }
     > .user-add {
       > .addTodoShow {

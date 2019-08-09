@@ -33,6 +33,7 @@ const actions = {
   },
   async getTodos({commit}) {
     TodoModel.getTodoByUser().then(res => {
+        console.log(res);
         let allTodos = res.map(item => {
           return {id: item.id, createTime: item.createdAt, ...item.attributes}
         })
