@@ -28,6 +28,10 @@ export const TodoModel = {
   getTodoByUser(){
     let query = new AV.Query('Todo')
     return query.find()
+  },
+  deleteTodoById(id){
+    let todo = AV.Object.createWithoutData('Todo', id);
+    return todo.destroy()
   }
 }
 export function signUpLean(username, password, email) {

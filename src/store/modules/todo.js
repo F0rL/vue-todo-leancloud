@@ -1,27 +1,29 @@
 import { TodoModel } from '@/http/leancloud'
 
 const state = {
-  allTodos: []
+  allTodos: [],
+  showingTodos: []
 }
 
 const getters = {
-  processingTodos(state) {
-    let todos = state.allTodos.filter( todo => {
-      todo.status === 'processing'
-    })
-    return todos
-  },
-  completedTodos(state) {
-    let todos = state.allTodos.filter( todo => {
-      todo.status === 'completed'
-    })
-    return todos
-  }
+
 }
 
 const mutations = {
   setAllTodos(state, payload){
     state.allTodos = payload
+  },
+  setShowingTodos(state, payload){
+    state.showingTodos = state.allTodos.filter(todo => {
+      switch (payload) {
+        case 'processing':
+          return todo.status === 'processing'
+        case 'completed':
+          return todo.status === 'completed'
+        case 'all':
+          return true
+      }
+    })
   }
 }
 
@@ -33,16 +35,21 @@ const actions = {
   },
   async getTodos({commit}) {
     TodoModel.getTodoByUser().then(res => {
-        console.log(res);
         let allTodos = res.map(item => {
           return {id: item.id, createTime: item.createdAt, ...item.attributes}
         })
         commit('setAllTodos', allTodos)
+        //这一步是初始化，首页显示进行中的项目
+        commit('setShowingTodos', 'processing')
       },
       error => {
         throw new Error(error)
       }
     )
+  },
+  async deleteTodoItem({commit}, todoItemId){
+    let id = todoItemId
+    return TodoModel.deleteTodoById(id)
   }
 }
 

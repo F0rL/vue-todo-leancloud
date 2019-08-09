@@ -31,7 +31,12 @@
       </div>
     </div>
     <div class="user-main">
-      <x-todo v-for="item in todos" :todo = item :key="item.id" class="user-todo-item"></x-todo>
+      <x-todo
+          v-for="item in showingTodos"
+          :todo = item :key="item.id"
+          class="user-todo-item"
+          @sendIdByItem="getIdByItem"
+      ></x-todo>
     </div>
     <div class="user-add">
       <x-icon name="add" class="addTodoShow" @click="showAddTodo"></x-icon>
@@ -43,6 +48,31 @@
         </div>
       </div>
     </div>
+    <footer class="user-footer">
+      <ul class="footer-wrapper">
+        <li class="footer-item"
+            @click="changeShowing('processing')"
+            :class="{isActive: showingType === 'processing'}"
+        >
+          <x-icon name="processing" class="footer-icon"></x-icon>
+          <span class="footer-text">进行中</span>
+        </li>
+        <li class="footer-item"
+            @click="changeShowing('completed')"
+            :class="{isActive: showingType === 'completed'}"
+        >
+          <x-icon name="completed" class="footer-icon"></x-icon>
+          <span class="footer-text">已完成</span>
+        </li>
+        <li class="footer-item"
+            @click="changeShowing('all')"
+            :class="{isActive: showingType === 'all'}"
+        >
+          <x-icon name="everything" class="footer-icon"></x-icon>
+          <span class="footer-text">所有的</span>
+        </li>
+      </ul>
+    </footer>
   </div>
 </template>
 <script>
@@ -65,21 +95,22 @@
         changeType: '',
         addTodoVisible: false,
         addTodoContent: '',
+        showingType: 'processing'
       }
     },
     computed: {
       ...mapState({
         user: state => state.auth.user,
-        todos: state => state.todo.allTodos
-      }),
+        showingTodos: state => state.todo.showingTodos
+      })
     },
     mounted() {
       this.getUserInfo()
       this.getTodos()
     },
     methods: {
-      ...mapActions(['getUserInfo', 'createTodo', 'getTodos']),
-      ...mapMutations(['setUser', 'setLogin']),
+      ...mapActions(['getUserInfo', 'createTodo', 'getTodos', 'deleteTodoItem']),
+      ...mapMutations(['setUser', 'setLogin', 'setShowingTodos']),
       onClickUserInfo(){
         this.actionVisible = !this.actionVisible
       },
@@ -127,6 +158,18 @@
         }else {
           alert('内容不能为空')
         }
+      },
+      getIdByItem(id){
+        let itemId = id
+        this.deleteTodoItem(itemId).then(() => {
+          this.getTodos()
+        }, error => {
+          console.log(error)
+        })
+      },
+      changeShowing(type){
+        this.setShowingTodos(type)
+        this.showingType = type
       }
     }
   }
@@ -286,7 +329,7 @@
       > .addTodoShow {
         position: fixed;
         right: 30px;
-        bottom: 30px;
+        bottom: 60px;
         height: $add-btn-size * 1.8;
         width: $add-btn-size * 1.8;
         padding: $add-btn-size/2.4;
@@ -336,6 +379,37 @@
             &:hover {
               color: red;
             }
+          }
+        }
+      }
+    }
+    > .user-footer {
+      > .footer-wrapper {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        background: linear-gradient(to right, $header-bg-color, #fff);
+        box-shadow: 0 4px 4px 4px rgba(0, 0, 0, 0.15);
+        > .footer-item {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          align-items: center;
+          cursor: pointer;
+          padding: 4px;
+          flex: 1;
+          &:hover {
+            background: rgba(0, 0, 0, 0.15);
+          }
+          &.isActive {
+            background-color: #00818a;
+          }
+          > .footer-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+          }
+          > .footer-text {
+            font-size: 14px;
           }
         }
       }

@@ -7,7 +7,7 @@
     <div class="todo-main">
       <input type="checkbox"  class="todo-change" @click="isDone = !isDone">
       <span class="todo-content" :class="{done: isDone}">{{todo.content}}</span>
-      <x-icon name="add" class="todo-delete"></x-icon>
+      <x-icon name="add" class="todo-delete" @click="sendId"></x-icon>
     </div>
   </div>
 </template>
@@ -34,6 +34,11 @@
     computed: {
       todoTime(){
         return FormattingTime(this.todo)
+      }
+    },
+    methods: {
+      sendId(){
+        this.$emit('sendIdByItem', this.todo.id)
       }
     }
   }
