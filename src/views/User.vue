@@ -35,7 +35,8 @@
           v-for="item in showingTodos"
           :todo = item :key="item.id"
           class="user-todo-item"
-          @sendIdByItem="getIdByItem"
+          @sendDeleteIdByItem="getDeleteIdByItem"
+          @sendChangeIdByItem="getChangeIdByItem"
       ></x-todo>
     </div>
     <div class="user-add">
@@ -101,15 +102,28 @@
     computed: {
       ...mapState({
         user: state => state.auth.user,
-        showingTodos: state => state.todo.showingTodos
-      })
+        allTodos: state => state.todo.allTodos,
+      }),
+      showingTodos(){
+        if(this.showingType === 'processing') {
+          return this.allTodos.filter( todo => {
+            return todo.status === 'processing'
+          })
+        }else if (this.showingType === 'completed') {
+          return this.allTodos.filter( todo => {
+            return todo.status === 'completed'
+          })
+        }else {
+          return this.allTodos
+        }
+      }
     },
     mounted() {
       this.getUserInfo()
       this.getTodos()
     },
     methods: {
-      ...mapActions(['getUserInfo', 'createTodo', 'getTodos', 'deleteTodoItem']),
+      ...mapActions(['getUserInfo', 'createTodo', 'getTodos', 'deleteTodoItem', 'setTodoStatus']),
       ...mapMutations(['setUser', 'setLogin', 'setShowingTodos']),
       onClickUserInfo(){
         this.actionVisible = !this.actionVisible
@@ -159,13 +173,17 @@
           alert('内容不能为空')
         }
       },
-      getIdByItem(id){
+      getDeleteIdByItem(id){
         let itemId = id
         this.deleteTodoItem(itemId).then(() => {
+          console.log('删除成功')
           this.getTodos()
         }, error => {
           console.log(error)
         })
+      },
+      getChangeIdByItem(obj){
+        this.setTodoStatus(obj)
       },
       changeShowing(type){
         this.setShowingTodos(type)

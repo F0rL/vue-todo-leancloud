@@ -32,6 +32,12 @@ export const TodoModel = {
   deleteTodoById(id){
     let todo = AV.Object.createWithoutData('Todo', id);
     return todo.destroy()
+  },
+  setStatusById(obj){
+    let {id, status} = obj
+    let todo = AV.Object.createWithoutData('Todo', id);
+    todo.set('status', status)
+    return todo.save()
   }
 }
 export function signUpLean(username, password, email) {

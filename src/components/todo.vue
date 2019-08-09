@@ -5,9 +5,9 @@
       <span>{{todoTime}}</span>
     </div>
     <div class="todo-main">
-      <input type="checkbox"  class="todo-change" @click="isDone = !isDone">
+      <input type="checkbox"  class="todo-change" @click="sendChangeId">
       <span class="todo-content" :class="{done: isDone}">{{todo.content}}</span>
-      <x-icon name="add" class="todo-delete" @click="sendId"></x-icon>
+      <x-icon name="add" class="todo-delete" @click="sendDeleteId"></x-icon>
     </div>
   </div>
 </template>
@@ -19,26 +19,31 @@
   export default {
     name: "xTodo",
     components: {xIcon},
-    data(){
-      return {
-        isDone: false
-      }
-    },
     props: {
       todo: {
         type: Object
       }
     },
-    mounted() {
-    },
     computed: {
       todoTime(){
         return FormattingTime(this.todo)
+      },
+      isDone(){
+        if(this.todo.status === 'processing') {
+          return false
+        }else {
+          return true
+        }
       }
     },
     methods: {
-      sendId(){
-        this.$emit('sendIdByItem', this.todo.id)
+      sendDeleteId(){
+        this.$emit('sendDeleteIdByItem', this.todo.id)
+      },
+      sendChangeId(){
+        let status = this.todo.status === 'processing' ? 'completed' : 'processing'
+        let payload = {id: this.todo.id, status: status}
+        this.$emit('sendChangeIdByItem', payload)
       }
     }
   }

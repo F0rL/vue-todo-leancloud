@@ -1,8 +1,7 @@
 import { TodoModel } from '@/http/leancloud'
 
 const state = {
-  allTodos: [],
-  showingTodos: []
+  allTodos: []
 }
 
 const getters = {
@@ -28,7 +27,7 @@ const mutations = {
 }
 
 const actions = {
-  async createTodo({commit}, data) {
+  async createTodo({commit},data) {
     let {content, status, deleted} = data
     let res = await TodoModel.create(content, status, deleted)
     return res
@@ -39,8 +38,6 @@ const actions = {
           return {id: item.id, createTime: item.createdAt, ...item.attributes}
         })
         commit('setAllTodos', allTodos)
-        //这一步是初始化，首页显示进行中的项目
-        commit('setShowingTodos', 'processing')
       },
       error => {
         throw new Error(error)
@@ -50,6 +47,13 @@ const actions = {
   async deleteTodoItem({commit}, todoItemId){
     let id = todoItemId
     return TodoModel.deleteTodoById(id)
+  },
+  async setTodoStatus({dispatch}, payload){
+    TodoModel.setStatusById(payload).then( () =>{
+      dispatch('getTodos')
+    }, error => {
+      console.log(error);
+    })
   }
 }
 
