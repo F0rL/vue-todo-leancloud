@@ -1,7 +1,7 @@
 <template>
   <div id="todo">
     <div class="todo-time">
-      <span>一天前</span>
+      <span>{{intervalDay}}</span>
       <span>{{todoTime}}</span>
     </div>
     <div class="todo-main">
@@ -14,7 +14,7 @@
 
 <script>
   import xIcon from '@/components/icon.vue'
-  import FormattingTime from '@/assets/js/FormattingTime.js'
+  import {FormattingTime, getIntervalDay} from '@/assets/js/FormattingTime.js'
 
   export default {
     name: "xTodo",
@@ -27,6 +27,9 @@
     computed: {
       todoTime(){
         return FormattingTime(this.todo)
+      },
+      intervalDay(){
+        return getIntervalDay(this.todo)
       },
       isDone(){
         if(this.todo.status === 'processing') {
