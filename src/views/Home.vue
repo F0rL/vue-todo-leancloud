@@ -76,6 +76,10 @@ export default {
     },
     signUp() {
       console.log('signUp')
+      if(this.username === '' || this.password === ''){
+        this.signMsg = '账号或密码不能为空'
+        return
+      }
       signUpLean(this.username, this.password).then( res => {
         this.setUser(res)
         this.setLogin(true)
