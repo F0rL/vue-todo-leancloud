@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <div class="welcome">
-      <h1>欢迎使用X-List备忘本</h1>
       <h3>{{sentence.en}}</h3>
       <h3>{{sentence.zh}}</h3>
     </div>
@@ -53,7 +52,7 @@ export default {
       username: '',
       password: '',
       repeatPassword: '',
-      loginMsg: '欢迎登录',
+      loginMsg: '欢迎使用X备忘',
       signMsg: '欢迎注册',
       isLogin: true
     }
@@ -100,44 +99,41 @@ export default {
 }
 </script>
 <style lang="scss">
-  $wel-fontSize: 32px;
-  $wel-fontColor: #48466d;
-  $wel-size: 500px;
-  $login-size: 360px;
-  $login-shadow: #928a97;
-  $login-color: #36b1bf;
+  $login-color: #ff2e63;
   .home {
     height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    width: 100%;
     background: #74ebd5; /* fallback for old browsers */
     background: -webkit-linear-gradient(to bottom, #ACB6E5, #74ebd5); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to bottom, #ACB6E5, #74ebd5);
   }
   .welcome {
-    width: $wel-size;
-    > h1 {
-      font-size: $wel-fontSize;
-      color: $wel-fontColor;
-    }
+    text-align: center;
+    padding-top: 20px;
+    color: #FFF;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
     > h3 {
-      font-size: $wel-fontSize/2;
-      color: $wel-fontColor;
-      margin-top: $wel-fontSize;
+      margin-top: 4px;
+      font-size: 14px;
     }
   }
   .home-input {
-    height: $login-size;
-    width: $login-size;
-    background: rgba(255,255,255,.6);
-    border-radius: 4px;
+    position: absolute;
+    top:  50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 350px;
+    max-height: 350px;
+    height: 70%;
+    width: 80%;
+    background: #fff;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     > .username, .password {
-      width: $login-size*0.8;
+      width: 80%;
     }
     > .home-msg {
       font-size: 16px;
@@ -148,7 +144,7 @@ export default {
     > .button-group {
       width: 120px;
       > .home-button {
-        color: $login-color;
+        color: #3e4149;
         height: 40px;
         &:hover {
           background: rgba(0, 0, 0, .04);

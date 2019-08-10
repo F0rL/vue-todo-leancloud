@@ -41,7 +41,7 @@
       </transition-group>
     </div>
     <div class="user-add">
-      <x-icon name="add" class="addTodoShow" @click="showAddTodo"></x-icon>
+      <x-icon name="add" class="addTodoShow" :class="{addTodoBtn: addTodoVisible}" @click="showAddTodo"></x-icon>
       <div class="addTodo" v-show="addTodoVisible">
         <textarea name="addtodo" id="addTodo-content" cols="150" rows="10" placeholder="请输入您待办的事" v-model="addTodoContent"></textarea>
         <div class="addTodoBtn-grounp">
@@ -275,6 +275,8 @@
           width: 100px;
           padding: 8px 8px;
           background: transparent;
+          border: 1px solid #ccc;
+          border-top: none;
           text-align: center;
           &:hover {
             background-color: #ccc;
@@ -342,7 +344,7 @@
       overflow: scroll;
       > .user-todo-item {
         max-width: 800px;
-        min-width: 200px;
+        min-width: 100px;
         margin: 0 auto;
       }
     }
@@ -357,7 +359,7 @@
         background: rgb(255, 64, 129);
         border-radius: $add-btn-size;
         cursor: pointer;
-        &:hover {
+        &.addTodoBtn {
           opacity: 0.6;
           transform: rotate(45deg);
           transition: .4s;
@@ -366,17 +368,19 @@
       > .addTodo {
         position: fixed;
         right: 100px;
-        bottom: 60px;
-        width: 500px;
-        height: 60%;
+        bottom: 80px;
+        display: flex;
+        flex-direction: column;
+        height: 50%;
+        width: 60%;
         padding: 1px;
-        background-color: #2196f3;
+        background-color: #00a79d;
         border-radius: 10px;
+        overflow: hidden;
         > #addTodo-content {
+          flex: 8;
           vertical-align: bottom;
-          width: calc(100% - 40px);
           padding: 20px;
-          height: 80%;
           font-size: 18px;
           background-color: transparent;
           border: none;
@@ -384,21 +388,19 @@
           resize: none;
         }
         > .addTodoBtn-grounp {
-          height: 11%;
           display: flex;
-          justify-content: space-between;
-          padding: 0 50px;
+          flex-grow: 1;
+          flex-shrink: 1;
           border-top: #fff 1px solid;
           > .todoBtn {
-            margin: 4px;
-            padding: 0;
+            flex-grow: 1;
             border: 0;
             background-color: transparent;
             font-size: 16px;
             color: #fff;
             cursor: pointer;
             &:hover {
-              color: red;
+              background-color: #007065;
             }
           }
         }

@@ -54,6 +54,7 @@
 
 <style lang="scss" scoped>
   #todo {
+    margin: 0 10px;
     > .todo-time {
       display: flex;
       align-items: center;
