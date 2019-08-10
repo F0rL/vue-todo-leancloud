@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <header class="user-header">
-      <div class="user-menu">
+      <div class="user-menu" @click="showMore">
         <x-icon name="menu" style="width:20px;height:20px;"></x-icon>
       </div>
       <div class="user-logo">
@@ -18,6 +18,19 @@
 <!--          <li @click="onClickAction('changePassword')">修改密码</li>-->
           <li @click="onClickAction('logout')">注销登陆</li>
         </ul>
+      </transition>
+      <transition name="action-more">
+        <div class="user-more" v-show="moreVisible">
+          <div class="user-more-main">
+            <p>这是一款轻量级在线备忘webapp</p>
+            <p>支持注册、登录、标记，数据备份在Leancloud</p>
+            <p>前端页面由Vue2.0全家桶完成</p>
+            <p>了解更多：</p>
+            <p>Github: <a href="https://github.com/F0rL" target="_blank">F0rl</a></p>
+            <p>掘金： <a href="https://juejin.im/user/5bc55e58e51d450e99437ad7" target="_blank">知行难</a></p>
+            <span @click="showMore"></span>
+          </div>
+        </div>
       </transition>
     </header>
     <div class="mask" v-show="dialogVisible">
@@ -91,6 +104,7 @@
     data(){
       return {
         actionVisible: false,
+        moreVisible: false,
         dialogVisible: false,
         newNickname: '',
         password: '',
@@ -128,6 +142,9 @@
       ...mapMutations(['setUser', 'setLogin', 'setShowingTodos']),
       onClickUserInfo(){
         this.actionVisible = !this.actionVisible
+      },
+      showMore(){
+        this.moreVisible = !this.moreVisible
       },
       onClickAction(type) {
         if(type === 'logout') {
@@ -207,12 +224,11 @@
     background-color: $user-bg-color;
     /*background-color: #fff;*/
     > .user-header {
-      height: 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 30px;
-      background: linear-gradient(to right, $header-bg-color, #fff);
+      padding: 12px 30px;
+      background: #66c6ba;
       box-shadow: 0 4px 4px -4px rgba(0, 0, 0, 0.15);
       position: relative;
       z-index: 10;
@@ -284,6 +300,40 @@
           &:last-child {
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;
+          }
+        }
+      }
+      > .user-more {
+        position: fixed;
+        left: 0;
+        top: 50px;
+        bottom: 48px;
+        background-color: #fff;
+        box-shadow: 2px 0 #ccc;
+        font-size: 14px;
+        p {
+          margin-top: 8px;
+          padding: 10px;
+          > a {
+            text-decoration: none;
+            color: #ed1250;
+          }
+        }
+        span {
+          position: absolute;
+          right: 0;
+          border-top: 20px solid transparent;
+          border-right: 20px solid #ccc;
+          border-bottom: 20px solid transparent;
+          cursor: pointer;
+          &:after{
+            content: '';
+            position: absolute;
+            right: -20px;
+            top: -14px;
+            border-top: 14px solid transparent;
+            border-right: 14px solid #e84a5f;
+            border-bottom: 14px solid transparent;
           }
         }
       }
@@ -438,8 +488,14 @@
       }
     }
   }
-
-  /*添加删除动画*/
+  /*介绍侧边栏动画*/
+  .action-more-enter-active, .action-more-leave-active {
+    transition: transform 1s;
+  }
+  .action-more-enter, .action-more-leave-to {
+    transform: translateX(-320px);
+  }
+  /*添加、删除todo动画*/
   .todo-list-enter-active,.todo-list-leave-active {
     transition: transform .7s;
   }
@@ -451,6 +507,7 @@
   .todo-list-leave-active {
     position: absolute;
   }
+
   /*下拉菜单动画*/
   .action-slide-enter-active,
   .action-slide-leave-active {
