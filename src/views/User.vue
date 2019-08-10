@@ -31,13 +31,14 @@
       </div>
     </div>
     <div class="user-main">
-      <x-todo
-          v-for="item in showingTodos"
-          :todo = item :key="item.id"
-          class="user-todo-item"
-          @sendDeleteIdByItem="getDeleteIdByItem"
-          @sendChangeIdByItem="getChangeIdByItem"
-      ></x-todo>
+      <transition-group name="todo-list" tag="div" class="user-todo-item">
+        <x-todo
+            v-for="item in showingTodos"
+            :todo = item :key="item.id"
+            @sendDeleteIdByItem="getDeleteIdByItem"
+            @sendChangeIdByItem="getChangeIdByItem"
+        ></x-todo>
+      </transition-group>
     </div>
     <div class="user-add">
       <x-icon name="add" class="addTodoShow" @click="showAddTodo"></x-icon>
@@ -340,6 +341,8 @@
       width: 100%;
       overflow: scroll;
       > .user-todo-item {
+        max-width: 800px;
+        min-width: 200px;
         margin: 0 auto;
       }
     }
@@ -434,6 +437,19 @@
     }
   }
 
+  /*添加删除动画*/
+  .todo-list-enter-active,.todo-list-leave-active {
+    transition: transform .7s;
+  }
+  .todo-list-enter, .todo-list-leave-to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  /*解决了切换时先在中间，再往上移的bug*/
+  .todo-list-leave-active {
+    position: absolute;
+  }
+  /*下拉菜单动画*/
   .action-slide-enter-active,
   .action-slide-leave-active {
     transition: all 0.3s ease-in-out;

@@ -5,7 +5,7 @@
       <span>{{todoTime}}</span>
     </div>
     <div class="todo-main">
-      <input type="checkbox"  class="todo-change" @click="sendChangeId">
+      <input type="checkbox"  class="todo-change" @click="sendChangeId" :checked="isDone">
       <span class="todo-content" :class="{done: isDone}">{{todo.content}}</span>
       <x-icon name="add" class="todo-delete" @click="sendDeleteId"></x-icon>
     </div>
@@ -54,7 +54,6 @@
 
 <style lang="scss" scoped>
   #todo {
-    max-width: 800px;
     > .todo-time {
       display: flex;
       align-items: center;
@@ -137,5 +136,4 @@
       }
     }
   }
-
 </style>
